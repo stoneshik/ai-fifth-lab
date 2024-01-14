@@ -74,11 +74,36 @@ class VisualizeData:
         cls.__visualize_info_column_result(data.iloc[:, 8], 9, "Результат")
         print()
 
+    @classmethod
+    def visualize_in_3d(cls, data):
+        x_label = 'Glucose'
+        y_label = 'BloodPressure'
+        z_label = 'Age'
+        x = data[x_label]
+        y = data[y_label]
+        z = data[z_label]
+
+        fig = plt.figure(figsize=(10, 16))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(x, y, z, c=z)
+
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
+        ax.set_zlabel(z_label)
+        plt.show()
+
 
 def main():
     data = pd.read_csv('diabetes.csv')
     VisualizeData.visualize_info_dataset(data)
-    normalized_data = NormalizeData.normalize_data(data)
+    VisualizeData.visualize_in_3d(data)
+
+    train = data.sample(frac=0.8, random_state=0)
+    test = data.drop(train.index)
+    normalized_train_data = NormalizeData.normalize_data(train)
+    normalized_test_data = NormalizeData.normalize_data(test)
+    print(normalized_train_data)
+    print(normalized_test_data)
 
 
 if __name__ == '__main__':
