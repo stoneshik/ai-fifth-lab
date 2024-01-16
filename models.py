@@ -34,3 +34,16 @@ class KNeighboursClassificator:
         return self.__most_frequent(values)
 
 
+class RandomModel:
+    def __init__(self, normalized_train_data, normalized_test_data):
+        self.normalized_train_data = normalized_train_data
+        self.normalized_test_data = normalized_test_data
+        self.classifier = KNeighboursClassificator()
+
+    def fit(self, k):
+        my_pred = [
+            self.classifier.classification(self.normalized_test_data.iloc[i, :-1], self.normalized_train_data, k)
+            for i in range(self.normalized_test_data.shape[0])
+        ]
+        l = [(self.normalized_test_data.iloc[i, -1], my_pred[i]) for i in range(self.normalized_test_data.shape[0])]
+        print('My algorithm\'s accuracy:', sum([test == pred for test, pred in l]) / len(l))

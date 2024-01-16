@@ -104,9 +104,17 @@ def main():
     print(normalized_test_data)
 
     classifier = KNeighboursClassificator()
-    my_pred = [classifier.classification(test.iloc[i, :-1], train, 3) for i in range(test.shape[0])]
-    l = [(test.iloc[i, -1], my_pred[i]) for i in range(test.shape[0])]
+    my_pred = [classifier.classification(normalized_test_data.iloc[i, :-1], normalized_train_data, 5) for i in range(normalized_test_data.shape[0])]
+    l = [(normalized_test_data.iloc[i, -1], my_pred[i]) for i in range(normalized_test_data.shape[0])]
     print('My algorithm\'s accuracy:', sum([test == pred for test, pred in l]) / len(l))
+
+    from sklearn.neighbors import KNeighborsClassifier
+
+    neigh = KNeighborsClassifier(n_neighbors=3).fit(normalized_train_data.iloc[:, :-1], normalized_train_data.iloc[:, -1])
+    sk_pred = neigh.predict(normalized_test_data.iloc[:, :-1])
+    l1 = [(normalized_test_data.iloc[i, -1], sk_pred[i]) for i in range(normalized_test_data.shape[0])]
+
+    print('Scikit-learn\'s accuracy:', sum([test == pred for test, pred in l1]) / len(l1))
 
 
 if __name__ == '__main__':
