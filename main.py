@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from models import KNeighboursClassificator
+
 
 class NormalizeData:
     @classmethod
@@ -102,8 +104,11 @@ def main():
     test = data.drop(train.index)
     normalized_train_data = NormalizeData.normalize_data(train)
     normalized_test_data = NormalizeData.normalize_data(test)
-    print(normalized_train_data)
-    print(normalized_test_data)
+
+    classifier = KNeighboursClassificator()
+    my_pred = [classifier.classification(test.iloc[i, :-1], train, 3) for i in range(test.shape[0])]
+    l = [(test.iloc[i, -1], my_pred[i]) for i in range(test.shape[0])]
+    print('My algorithm\'s accuracy:', sum([test == pred for test, pred in l]) / len(l))
 
 
 if __name__ == '__main__':
