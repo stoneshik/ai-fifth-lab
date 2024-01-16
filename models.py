@@ -3,12 +3,12 @@ import random
 
 class KNeighboursClassificator:
     @classmethod
-    def __distance(cls, l1, l2) -> float:
-        assert len(l1) == len(l2)
-        return sum([(l1_i - l2_i) ** 2 for l1_i, l2_i in zip(l1, l2)]) ** 0.5
+    def __distance(cls, first, second):
+        assert len(first) == len(second)
+        return sum([(first_i - second_i) ** 2 for first_i, second_i in zip(first, second)]) ** 0.5
 
     @classmethod
-    def __most_frequent(cls, l) -> str:
+    def __most_frequent(cls, l):
         """
         Функция поиска наиболее часто встречающегося значения выборки
         """
