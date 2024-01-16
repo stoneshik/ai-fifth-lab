@@ -2,15 +2,16 @@ import random
 
 
 class KNeighboursClassificator:
-
     @classmethod
     def __distance(cls, l1, l2) -> float:
         assert len(l1) == len(l2)
         return sum([(l1_i - l2_i) ** 2 for l1_i, l2_i in zip(l1, l2)]) ** 0.5
 
-    # Search function for the most frequent sample value
     @classmethod
     def __most_frequent(cls, l) -> str:
+        """
+        Функция поиска наиболее часто встречающегося значения выборки
+        """
         count = {}
         for l_i in l:
             if l_i in count.keys():
@@ -20,8 +21,10 @@ class KNeighboursClassificator:
         count = sorted(count.items(), key=lambda item: item[1], reverse=True)
         return count[0][0]
 
-    # Classification function
     def classification(self, data, df, k: int) -> str:
+        """
+        Функция классификации
+        """
         dist = []
         # Расчет расстояний до каждой точки обучающей выборки
         for i in range(df.shape[0]):
@@ -33,6 +36,9 @@ class KNeighboursClassificator:
 
 
 class ConfusionMatrix:
+    """
+    Матрица ошибок
+    """
     def __init__(self, test_data, y, y_result):
         self.test_data = test_data
         self.y = y
