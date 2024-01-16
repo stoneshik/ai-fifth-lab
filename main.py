@@ -101,10 +101,17 @@ def main():
     normalized_train_data = NormalizeData.normalize_data(train)
     normalized_test_data = NormalizeData.normalize_data(test)
 
-    random_model = RandomModel(normalized_train_data, normalized_test_data)
-    random_model.result(3)
-    random_model.result(5)
-    random_model.result(10)
+    first_random_model = RandomModel(normalized_train_data, normalized_test_data)
+    print(f"Выбранные признаки: {', '.join(first_random_model.selected_features)}")
+    first_random_model.result(3)
+
+    second_random_model = RandomModel(normalized_train_data, normalized_test_data)
+    print(f"Выбранные признаки: {', '.join(second_random_model.selected_features)}")
+    second_random_model.result(5)
+
+    third_random_model = RandomModel(normalized_train_data, normalized_test_data)
+    print(f"Выбранные признаки: {', '.join(third_random_model.selected_features)}")
+    third_random_model.result(10)
 
 
 if __name__ == '__main__':
