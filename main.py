@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from models import RandomModel
+from models import RandomModel, SelectedModel
 
 
 class NormalizeData:
@@ -102,16 +102,29 @@ def main():
     normalized_test_data = NormalizeData.normalize_data(test)
 
     first_random_model = RandomModel(normalized_train_data, normalized_test_data)
-    print(f"Выбранные признаки: {', '.join(first_random_model.selected_features)}")
+    print(f"Выбранные случайно признаки: {', '.join(first_random_model.selected_features)}")
     first_random_model.result(3)
 
     second_random_model = RandomModel(normalized_train_data, normalized_test_data)
-    print(f"Выбранные признаки: {', '.join(second_random_model.selected_features)}")
+    print(f"Выбранные случайно признаки: {', '.join(second_random_model.selected_features)}")
     second_random_model.result(5)
 
     third_random_model = RandomModel(normalized_train_data, normalized_test_data)
-    print(f"Выбранные признаки: {', '.join(third_random_model.selected_features)}")
+    print(f"Выбранные случайно признаки: {', '.join(third_random_model.selected_features)}")
     third_random_model.result(10)
+
+    first_selected_model = SelectedModel(
+        ('Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'Pedigree', 'Age'),
+        normalized_train_data,
+        normalized_test_data
+    )
+    print(f"Выбранные признаки: {', '.join(first_selected_model.selected_features)}")
+    first_selected_model.result(3)
+    print(f"Выбранные признаки: {', '.join(first_selected_model.selected_features)}")
+    first_selected_model.result(5)
+    print(f"Выбранные признаки: {', '.join(first_selected_model.selected_features)}")
+    first_selected_model.result(10)
+
 
 
 if __name__ == '__main__':

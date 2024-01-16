@@ -100,3 +100,27 @@ class RandomModel:
         confusion_matrix.print_count()
         confusion_matrix.print_accuracy()
         print()
+
+
+class SelectedModel:
+    def __init__(self, selected_features, normalized_train_data, normalized_test_data):
+        self.selected_features = selected_features
+        self.train_data = self.__set_train_data(normalized_train_data)
+        self.test_data = self.__set_test_data(normalized_test_data)
+        self.classifier = KNeighboursClassificator()
+
+    def __set_train_data(self, normalized_train_data):
+        return normalized_train_data.loc[:, self.selected_features]
+
+    def __set_test_data(self, normalized_test_data):
+        return normalized_test_data.loc[:, self.selected_features]
+
+    def result(self, k):
+        y_result = [
+            self.classifier.classification(self.test_data.iloc[i, :-1], self.train_data, k)
+            for i in range(self.test_data.shape[0])
+        ]
+        confusion_matrix = ConfusionMatrix(self.test_data, self.test_data.iloc[:, -1], y_result)
+        confusion_matrix.print_count()
+        confusion_matrix.print_accuracy()
+        print()
