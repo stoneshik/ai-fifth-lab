@@ -86,10 +86,14 @@ class RandomModel:
         return random.sample(self.features, k=k_value)
 
     def __set_train_data(self, normalized_train_data):
-        return normalized_train_data.loc[:, self.selected_features]
+        features = self.selected_features.copy()
+        features.append('Outcome')
+        return normalized_train_data.loc[:, features]
 
     def __set_test_data(self, normalized_test_data):
-        return normalized_test_data.loc[:, self.selected_features]
+        features = self.selected_features.copy()
+        features.append('Outcome')
+        return normalized_test_data.loc[:, features]
 
     def result(self, k):
         y_result = [
@@ -110,10 +114,14 @@ class SelectedModel:
         self.classifier = KNeighboursClassificator()
 
     def __set_train_data(self, normalized_train_data):
-        return normalized_train_data.loc[:, self.selected_features]
+        features = self.selected_features.copy()
+        features.append('Outcome')
+        return normalized_train_data.loc[:, features]
 
     def __set_test_data(self, normalized_test_data):
-        return normalized_test_data.loc[:, self.selected_features]
+        features = self.selected_features.copy()
+        features.append('Outcome')
+        return normalized_test_data.loc[:, features]
 
     def result(self, k):
         y_result = [

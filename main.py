@@ -114,7 +114,7 @@ def main():
     third_random_model.result(10)
 
     first_selected_model = SelectedModel(
-        ('Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'Pedigree', 'Age'),
+        ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'Pedigree', 'Age'],
         normalized_train_data,
         normalized_test_data
     )
@@ -124,7 +124,6 @@ def main():
     first_selected_model.result(5)
     print(f"Выбранные признаки: {', '.join(first_selected_model.selected_features)}")
     first_selected_model.result(10)
-
 
 
 if __name__ == '__main__':
