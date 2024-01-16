@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from models import KNeighboursClassificator
+from models import RandomModel
 
 
 class NormalizeData:
@@ -100,21 +100,11 @@ def main():
     test = data.drop(train.index)
     normalized_train_data = NormalizeData.normalize_data(train)
     normalized_test_data = NormalizeData.normalize_data(test)
-    print(normalized_train_data)
-    print(normalized_test_data)
 
-    classifier = KNeighboursClassificator()
-    my_pred = [classifier.classification(normalized_test_data.iloc[i, :-1], normalized_train_data, 5) for i in range(normalized_test_data.shape[0])]
-    l = [(normalized_test_data.iloc[i, -1], my_pred[i]) for i in range(normalized_test_data.shape[0])]
-    print('My algorithm\'s accuracy:', sum([test == pred for test, pred in l]) / len(l))
-
-    from sklearn.neighbors import KNeighborsClassifier
-
-    neigh = KNeighborsClassifier(n_neighbors=3).fit(normalized_train_data.iloc[:, :-1], normalized_train_data.iloc[:, -1])
-    sk_pred = neigh.predict(normalized_test_data.iloc[:, :-1])
-    l1 = [(normalized_test_data.iloc[i, -1], sk_pred[i]) for i in range(normalized_test_data.shape[0])]
-
-    print('Scikit-learn\'s accuracy:', sum([test == pred for test, pred in l1]) / len(l1))
+    random_model = RandomModel(normalized_train_data, normalized_test_data)
+    random_model.result(3)
+    random_model.result(5)
+    random_model.result(10)
 
 
 if __name__ == '__main__':

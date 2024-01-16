@@ -34,16 +34,33 @@ class KNeighboursClassificator:
         return self.__most_frequent(values)
 
 
+class ConfusionMatrix:
+    def __init__(self, test_data, y, y_result):
+        self.test_data = test_data
+        self.y = y
+        self.y_result = y_result
+        self.tp = []
+        self.fp = []
+        self.tn = []
+        self.fn = []
+
+    def create_confusion_matrix(self):
+        for test_data_i, y_value, y_result_value in zip(range(self.test_data.shape[0]), self.y, self.y_result):
+            if y_result_value == y_value == 100.0:
+                self.tp.append(self.test_data[test_data_i, 0:-2])
+
+
 class RandomModel:
     def __init__(self, normalized_train_data, normalized_test_data):
         self.normalized_train_data = normalized_train_data
         self.normalized_test_data = normalized_test_data
         self.classifier = KNeighboursClassificator()
 
-    def fit(self, k):
+    def result(self, k):
         my_pred = [
             self.classifier.classification(self.normalized_test_data.iloc[i, :-1], self.normalized_train_data, k)
             for i in range(self.normalized_test_data.shape[0])
         ]
-        l = [(self.normalized_test_data.iloc[i, -1], my_pred[i]) for i in range(self.normalized_test_data.shape[0])]
+        y_result = [(self.normalized_test_data.iloc[i, -1], my_pred[i]) for i in range(self.normalized_test_data.shape[0])]
+
         print('My algorithm\'s accuracy:', sum([test == pred for test, pred in l]) / len(l))
