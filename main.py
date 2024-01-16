@@ -13,17 +13,13 @@ class NormalizeData:
         """
         column_min = column.min()
         column_max = column.max()
-        normalize_func = np.vectorize(lambda x: (x - column_min) / (column_max - column_min) * 100)
-        return normalize_func(column)
+        return pd.Series([(x - column_min) / (column_max - column_min) * 100 for x in column], index=column.index)
 
     @classmethod
     def normalize_data(cls, data):
-        num_rows = len(data)
-        num_columns = len(data.columns)
-        matrix = np.zeros((num_rows, num_columns))
-        for num_column, column in enumerate(data.columns):
-            matrix[:, num_column] = cls.__normalize_column(data[column].to_numpy())
-        return matrix
+        for column in data.columns:
+            data[column] = cls.__normalize_column(data[column])
+        return data
 
 
 class VisualizeData:
@@ -104,6 +100,8 @@ def main():
     test = data.drop(train.index)
     normalized_train_data = NormalizeData.normalize_data(train)
     normalized_test_data = NormalizeData.normalize_data(test)
+    print(normalized_train_data)
+    print(normalized_test_data)
 
     classifier = KNeighboursClassificator()
     my_pred = [classifier.classification(test.iloc[i, :-1], train, 3) for i in range(test.shape[0])]

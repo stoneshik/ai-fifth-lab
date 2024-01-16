@@ -25,10 +25,10 @@ class KNeighboursClassificator:
     # Classification function
     def classification(self, data, df, k: int) -> str:
         dist = []
-        # Calculation of distances to each point of the training sample
+        # Расчет расстояний до каждой точки обучающей выборки
         for i in range(df.shape[0]):
             dist.append((i, self.__distance(data, df.iloc[i, :-1])))
-        # Search for values of the target variable
+        # Поиск значений целевой переменной
         dist.sort(key=lambda item: item[1])
         values = [df.iloc[d[0], -1] for d in dist[:k]]
         return self.__most_frequent(values)
